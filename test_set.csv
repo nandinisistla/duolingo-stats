@@ -1,0 +1,41 @@
+id,question,user_answer,correct_answer,expected_type
+1,Translate: the moon,le lune,la lune,"Gender (le/la, un/une)"
+2,Translate: a chair,un chaise,une chaise,"Gender (le/la, un/une)"
+3,Translate: the day,la jour,le jour,"Gender (le/la, un/une)"
+4,Translate: the night,le nuit,la nuit,"Gender (le/la, un/une)"
+5,Translate: a museum,une musée,un musée,"Gender (le/la, un/une)"
+6,Translate: You are tall.,Tu est grand.,Tu es grand.,Verb conjugation
+7,Translate: We have a cat.,Nous avez un chat.,Nous avons un chat.,Verb conjugation
+8,Translate: They eat apples.,Ils mange des pommes.,Ils mangent des pommes.,Verb conjugation
+9,Translate: I am going to school.,Je vas à l'école.,Je vais à l'école.,Verb conjugation
+10,Translate: She wants a coffee.,Elle voulez un café.,Elle veut un café.,Verb conjugation
+11,Translate: a big house,une grand maison,une grande maison,Adjective agreement
+12,Translate: the black cats,les chats noir,les chats noirs,Adjective agreement
+13,Translate: She is tired.,Elle est fatigué.,Elle est fatiguée.,Adjective agreement
+14,Translate: the new shoes,les nouveaux chaussures,les nouvelles chaussures,Adjective agreement
+15,Translate: The girls are small.,Les filles sont petit.,Les filles sont petites.,Adjective agreement
+16,Translate: I drink milk.,Je bois lait.,Je bois du lait.,"Articles & partitives (du, de la, des)"
+17,Translate: I eat some bread.,Je mange le pain.,Je mange du pain.,"Articles & partitives (du, de la, des)"
+18,Translate: I don't want coffee.,Je ne veux pas du café.,Je ne veux pas de café.,"Articles & partitives (du, de la, des)"
+19,Translate: I love chocolate.,J'aime du chocolat.,J'aime le chocolat.,"Articles & partitives (du, de la, des)"
+20,Translate: She has friends.,Elle a amis.,Elle a des amis.,"Articles & partitives (du, de la, des)"
+21,Translate: I live in Canada.,J'habite en Canada.,J'habite au Canada.,Prepositions
+22,Translate: We are going to Rome.,Nous allons en Rome.,Nous allons à Rome.,Prepositions
+23,Translate: The book is on the table.,Le livre est dans la table.,Le livre est sur la table.,Prepositions
+24,Translate: I am going to Spain.,Je vais à Espagne.,Je vais en Espagne.,Prepositions
+25,Translate: I am thinking about you.,Je pense de toi.,Je pense à toi.,Prepositions
+26,Translate: a blue car,une bleue voiture,une voiture bleue,Word order
+27,Translate: I don't eat.,Je ne pas mange.,Je ne mange pas.,Word order
+28,Translate: a pretty house,une maison jolie,une jolie maison,Word order
+29,Translate: I see him.,Je vois le.,Je le vois.,Word order
+30,Translate: Where is the station?,Où la gare est ?,Où est la gare ?,Word order
+31,Translate: the summer,l'ete,l'été,Spelling & accents
+32,Translate: the father,le pere,le père,Spelling & accents
+33,Translate: the boy,le garcon,le garçon,Spelling & accents
+34,Translate: thank you,merçi,merci,Spelling & accents
+35,Translate: the hospital,l'hopital,l'hôpital,Spelling & accents
+36,Translate: the dog,le chat,le chien,Vocabulary (wrong word)
+37,Translate: red,bleu,rouge,Vocabulary (wrong word)
+38,Translate: the kitchen,la chambre,la cuisine,Vocabulary (wrong word)
+39,Translate: I am hungry.,J'ai soif.,J'ai faim.,Vocabulary (wrong word)
+40,Translate: tomorrow,hier,demain,Vocabulary (wrong word)

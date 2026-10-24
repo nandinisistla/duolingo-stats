@@ -1,0 +1,5 @@
+.env
+mistakes.db
+eval_results.json
+__pycache__/
+.venv/
