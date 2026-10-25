@@ -127,6 +127,19 @@ def short(t):
     return t.split(" (")[0]
 
 
+import base64, json
+_imp = st.query_params.get("import")
+if _imp:
+    try:
+        _rows = json.loads(base64.urlsafe_b64decode(_imp + "=" * (-len(_imp) % 4)).decode("utf-8"))
+        st.session_state["incoming"] = [
+            {"question": r.get("q", ""), "user_answer": r.get("a", ""), "correct_answer": r.get("c", "")}
+            for r in _rows if r.get("c")][:30]
+    except Exception:
+        st.session_state["incoming"] = []
+    st.session_state["page"] = "Add mistakes"
+    st.query_params.clear()
+
 st.session_state.setdefault("page", "Dashboard")
 st.session_state.setdefault("user", "Ramya")
 user = (st.session_state["user"] or "Ramya").strip()
@@ -309,8 +322,27 @@ if page == "Dashboard":
 # ---------- Add mistakes ----------
 elif page == "Add mistakes":
     st.markdown('<div class="page-title">Add mistakes</div>', unsafe_allow_html=True)
+    incoming = st.session_state.get("incoming")
+    if incoming:
+        with st.container(key="card_incoming"):
+            st.markdown(f'<div class="card-title">{len(incoming)} mistakes from your extension</div>',
+                        unsafe_allow_html=True)
+            if st.button("Label with AI", type="primary", key="label_incoming"):
+                found = []
+                progress = st.progress(0.0)
+                for i, m in enumerate(incoming):
+                    try:
+                        found.append(ai.label_typed(m["question"], m["user_answer"], m["correct_answer"]))
+                    except Exception as e:
+                        st.error(ai.friendly_error(e))
+                        break
+                    progress.progress((i + 1) / len(incoming))
+                clear_keys("type_", "keep_")
+                st.session_state["pending"] = [dict(m, _src="extension") for m in found]
+                st.session_state.pop("incoming")
+        st.write("")
     with st.container(key="card_add"):
-        method = st.radio("How?", ["📸 Screenshot", "⌨️ Quick type (faster)"], horizontal=True)
+        method = st.radio("How?", ["📸 Screenshot", "⌨️ Quick type (faster)", "📥 Import from extension"], horizontal=True)
         if method == "📸 Screenshot":
             files = st.file_uploader("Upload screenshots of wrong answers", type=["png", "jpg", "jpeg", "webp"],
                                      accept_multiple_files=True)
@@ -331,7 +363,7 @@ elif page == "Add mistakes":
                 st.session_state["pending"] = [dict(m, _src="screenshot") for m in found]
                 if not found and not failed:
                     st.warning("No mistakes found in those screenshots.")
-        else:
+        elif method == "⌨️ Quick type (faster)":
             with st.form("typed", clear_on_submit=True, border=False):
                 q = st.text_input("Exercise (optional)", placeholder="Translate: the apple")
                 wrong = st.text_input("What you wrote", placeholder="le pomme")
@@ -343,6 +375,28 @@ elif page == "Add mistakes":
                             st.session_state["pending"] = [dict(ai.label_typed(q, wrong, right), _src="typed")]
                         except Exception as e:
                             st.error(ai.friendly_error(e))
+        else:
+            csv_file = st.file_uploader("Upload the CSV from the Duolingo Stats extension", type=["csv"])
+            if csv_file:
+                rows = pd.read_csv(csv_file, encoding="utf-8-sig")
+                rows = rows[rows["correct_answer"].notna() & (rows["correct_answer"].astype(str).str.strip() != "")]
+                total = len(rows)
+                if total > 30:
+                    st.caption("Only the first 30 will be used.")
+                rows = rows.head(30)
+                st.write(f"Found {total} mistakes")
+                if len(rows) and st.button("Label with AI", type="primary"):
+                    found = []
+                    progress = st.progress(0.0)
+                    for i, (_, row) in enumerate(rows.iterrows()):
+                        try:
+                            found.append(ai.label_typed(row["question"], row["user_answer"], row["correct_answer"]))
+                        except Exception as e:
+                            st.error(ai.friendly_error(e))
+                            break
+                        progress.progress((i + 1) / len(rows))
+                    clear_keys("type_", "keep_")
+                    st.session_state["pending"] = [dict(m, _src="extension") for m in found]
 
     pending = st.session_state.get("pending", [])
     if pending:

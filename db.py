@@ -5,8 +5,8 @@ from datetime import datetime
 
 DB_PATH = os.getenv("DUO_DB") or os.path.join(os.path.dirname(os.path.abspath(__file__)), "mistakes.db")
 
-# Where a row came from. Only 'screenshot' and 'typed' are real learner data.
-REAL_SOURCES = ("screenshot", "typed")
+# Where a row came from. Only 'screenshot', 'typed' and 'extension' are real learner data.
+REAL_SOURCES = ("screenshot", "typed", "extension")
 
 
 def _conn():
